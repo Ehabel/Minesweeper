@@ -2,7 +2,11 @@ package game;
 
 import game.board.Board;
 import game.board.cells.Cells;
+import org.json.simple.JSONObject;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -20,6 +24,7 @@ public class Game {
 
     public void run(){
         Scanner s = new Scanner(System.in);
+        Utils.createFile();
         while(isRun){
             board.run();
             String move = s.nextLine();
@@ -31,6 +36,7 @@ public class Game {
             Cells c = board.getCell(moveCord[0], moveCord[1]);
             if(c.getMine()){
                 System.out.println("You lost");
+                Utils.updateFile("losses");
                 isRun = false;
             }
             c.setNeighbouringMines(board.getCellNeighbours(c));
@@ -38,6 +44,7 @@ public class Game {
             if(board.revealedAll()){
                 board.run();
                 System.out.println("You win!");
+                Utils.updateFile("wins");
                 isRun = false;
             }
         }

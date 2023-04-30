@@ -108,9 +108,11 @@ public class Board {
             neighbours.add(this.board.get(x).get(y + 1));
             count += this.board.get(x).get(y + 1).getMine() ? 1: 0;
         }
+        if(!cell.isRevealed()){
+            this.revealedTiles++;
+        }
         cell.setRevealed(true);
         this.cascade(count, neighbours);
-        this.revealedTiles++;
         return count;
     }
 
