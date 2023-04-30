@@ -2,11 +2,7 @@ package game;
 
 import game.board.Board;
 import game.board.cells.Cells;
-import org.json.simple.JSONObject;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 
