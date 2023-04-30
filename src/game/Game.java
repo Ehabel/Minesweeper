@@ -35,15 +35,16 @@ public class Game {
             int[] moveCord = {Character.getNumericValue(move.charAt(0)), Character.getNumericValue(move.charAt(1))};
             Cells c = board.getCell(moveCord[0], moveCord[1]);
             if(c.getMine()){
-                System.out.println("You lost");
+                System.out.println("BOOM!");
                 Utils.updateFile("losses");
+                System.out.println(Utils.lostString());
                 isRun = false;
             }
             c.setNeighbouringMines(board.getCellNeighbours(c));
             c.setDisplay(c.getNeighbouringMines() + " |");
             if(board.revealedAll()){
                 board.run();
-                System.out.println("You win!");
+                System.out.println(Utils.winString());
                 Utils.updateFile("wins");
                 isRun = false;
             }
