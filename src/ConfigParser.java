@@ -9,15 +9,18 @@ import java.io.IOException;
 
 public class ConfigParser {
 
-    public static Long getSize(){
+    public static Long[] getConfig(){
+        Long[] vals = new Long[2];
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader("./config.json")) {
             JSONObject obj = (JSONObject) JSONValue.parse(reader);
-            Long size = (Long) obj.get("size");
-            return size;
+            vals[0] = (Long) obj.get("size");
+            vals[1] = (Long) obj.get("mines");
+            return vals;
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
 }
