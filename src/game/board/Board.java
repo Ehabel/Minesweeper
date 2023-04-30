@@ -54,7 +54,19 @@ public class Board {
         }
     }
 
+    public void renderBoardDebug(){
+        for (int i = 0; i < this.board.size(); i++) {
+            for (int j = 0; j < this.board.get(i).size(); j++) {
+                System.out.print(this.board.get(i).get(j).getMine() + " ");
+//                System.out.print("|??");
+//                System.out.printf("%d%d ", i, j);
+            }
+            System.out.println();
+        }
+    }
+
     public int getCellNeighbours(Cells cell){
+        ArrayList<Cells> neighbours = new ArrayList<Cells>();
         int x = cell.getX();
         int y = cell.getY();
         int above = y - 1;
@@ -64,26 +76,55 @@ public class Board {
         int count = 0;
 
         if(above >= 0 ){
-            if(left >= 0) count += this.board.get(x - 1).get(y - 1).getMine() ? 1: 0;
-            if(right < this.size) count += this.board.get(x + 1).get(y - 1).getMine() ? 1: 0;
+            if(left >= 0) {
+                neighbours.add(this.board.get(x - 1).get(y - 1));
+                count += this.board.get(x - 1).get(y - 1).getMine() ? 1 : 0;
+            };
+            if(right < this.size) {
+                neighbours.add(this.board.get(x + 1).get(y - 1));
+                count += this.board.get(x + 1).get(y - 1).getMine() ? 1 : 0;
+            }
+            neighbours.add(this.board.get(x).get(y - 1));
             count += this.board.get(x).get(y - 1).getMine() ? 1: 0;
         }
 
         if(left >= 0){
+            neighbours.add(this.board.get(x - 1).get(y));
             count +=this.board.get(x - 1).get(y).getMine() ? 1: 0;
         }
 
         if(right < this.size){
+            neighbours.add(this.board.get(x + 1).get(y));
             count += this.board.get(x + 1).get(y).getMine() ? 1: 0;
         }
 
         if(below < this.size){
-            if(left >= 0) count += this.board.get(x - 1).get(y + 1).getMine() ? 1: 0;
+            if(left >= 0) {
+                neighbours.add(this.board.get(x - 1).get(y + 1));
+                count += this.board.get(x - 1).get(y + 1).getMine() ? 1 : 0;
+            }
+            if(right < this.size) {
+                neighbours.add(this.board.get(x + 1).get(y + 1));
+                count += this.board.get(x + 1).get(y + 1).getMine() ? 1 : 0;
+            }
+            neighbours.add(this.board.get(x).get(y + 1));
             count += this.board.get(x).get(y + 1).getMine() ? 1: 0;
-            if(right < this.size) count += this.board.get(x + 1).get(y + 1).getMine() ? 1: 0;
         }
-
+        cell.setRevealed(true);
+        this.cascade(count, neighbours);
         return count;
+    }
+
+    private void cascade(int count, ArrayList<Cells> neighbours){
+        for(Cells c: neighbours){
+            if(!c.isRevealed() && !c.getMine()){
+                if(count == 0) {
+                    c.setNeighbouringMines(this.getCellNeighbours(c));
+                    c.setDisplay(String.valueOf(c.getNeighbouringMines() + " |"));
+                    c.setRevealed(true);
+                }
+            }
+        }
     }
 
     public Cells getCell(int x, int y){

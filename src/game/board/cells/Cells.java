@@ -4,7 +4,9 @@ public class Cells {
     private int x;
     private int y;
     private boolean isMine;
-    private String display = "??";
+    private String display = " ";
+    private boolean isRevealed = false;
+    private int neighbouringMines;
 
     public Cells(int x, int y,boolean isMine){
         this.x = x;
@@ -48,8 +50,24 @@ public class Cells {
         this.display = display;
     }
 
+    public int getNeighbouringMines() {
+        return neighbouringMines;
+    }
+
+    public void setNeighbouringMines(int neighbouringMines) {
+        this.neighbouringMines = neighbouringMines;
+    }
+
+    public boolean isRevealed() {
+        return isRevealed;
+    }
+
+    public void setRevealed(boolean revealed) {
+        isRevealed = revealed;
+    }
+
     @Override
     public String toString() {
-        return  getDisplay();
+        return this.isRevealed ? this.getDisplay() : "? |";
     }
 }

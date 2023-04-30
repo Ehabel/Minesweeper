@@ -33,8 +33,8 @@ public class Game {
                 System.out.println("You lost");
                 isRun = false;
             }
-            board.getCellNeighbours(c);
-            c.setDisplay("" + board.getCellNeighbours(c));
+            c.setNeighbouringMines(board.getCellNeighbours(c));
+            c.setDisplay(c.getNeighbouringMines() + " |");
         }
     }
 }
