@@ -23,7 +23,7 @@ public class Game {
         while(isRun){
             board.run();
             String move = s.nextLine();
-            if(Objects.equals(move, "") ||  !Character.isDigit(move.charAt(0)) || !Character.isDigit(move.charAt(1))){
+            if(Objects.equals(move, "") || move.length() != 2 ||  !Character.isDigit(move.charAt(0)) || !Character.isDigit(move.charAt(1))){
                 System.out.println("Please enter a numeric Coordinate");
                 continue;
             }
@@ -35,6 +35,11 @@ public class Game {
             }
             c.setNeighbouringMines(board.getCellNeighbours(c));
             c.setDisplay(c.getNeighbouringMines() + " |");
+            if(board.revealedAll()){
+                board.run();
+                System.out.println("You win!");
+                isRun = false;
+            }
         }
     }
 }

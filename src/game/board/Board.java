@@ -9,6 +9,7 @@ public class Board {
     private ArrayList<ArrayList<Cells>> board;
     private Long numMines;
     private Long size;
+    private int revealedTiles;
 
     public Board(Long size, Long numMines){
         this.board = new ArrayList<ArrayList<Cells>>();
@@ -45,9 +46,6 @@ public class Board {
     public void renderBoard(){
         for (int i = 0; i < this.board.size(); i++) {
             for (int j = 0; j < this.board.get(i).size(); j++) {
-//                System.out.print(this.board.get(i).get(j).getMine() + " ");
-//                System.out.print("|??");
-//                System.out.printf("%d%d ", i, j);
                 System.out.print(this.board.get(i).get(j).toString() + " ");
             }
             System.out.println();
@@ -112,6 +110,7 @@ public class Board {
         }
         cell.setRevealed(true);
         this.cascade(count, neighbours);
+        this.revealedTiles++;
         return count;
     }
 
@@ -120,11 +119,15 @@ public class Board {
             if(!c.isRevealed() && !c.getMine()){
                 if(count == 0) {
                     c.setNeighbouringMines(this.getCellNeighbours(c));
-                    c.setDisplay(String.valueOf(c.getNeighbouringMines() + " |"));
+                    c.setDisplay(c.getNeighbouringMines() + " |");
                     c.setRevealed(true);
                 }
             }
         }
+    }
+
+    public boolean revealedAll(){
+        return this.revealedTiles == this.size*this.size - this.numMines;
     }
 
     public Cells getCell(int x, int y){
